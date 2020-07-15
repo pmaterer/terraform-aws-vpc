@@ -1,21 +1,32 @@
 variable "tags" {
   type = object({
-    component = string
     environment = string
-    name = string
     owner = string
     project = string
-    version = string
+  })
+
+  default = {
+    environment = "dev"
+    owner = "acme/devops"
+    project = "manhattan"
+  }
+}
+
+variable "default_tags" {
+  type = object({
+    component = string
+    name = string
   })
 
   default = {
     component = "infrastructure"
-    environment = "dev"
     name = "vpc"
-    owner = "acme/devops"
-    project = "manhattan"
-    version = "v0.0.1"
   }
+}
+
+variable "version" {
+  type = string
+  default = "0.0.1"
 }
 
 variable "vpc_cidr_block" {
