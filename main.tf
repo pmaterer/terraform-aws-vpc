@@ -52,7 +52,7 @@ resource "aws_route_table_association" "public" {
 }
 
 resource "aws_route" "public" {
-    route_table_id = aws_route_table.main.id
+    route_table_id = aws_route_table.public.id
     destination_cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.main.id
 }
@@ -139,10 +139,10 @@ resource "aws_network_acl" "public" {
     tags = local.tags
 }
 
-resource "aws_network_acl_rule" "public_egress_alL" {
+resource "aws_network_acl_rule" "public_egress_all" {
     network_acl_id = aws_network_acl.public.id
     rule_number = 100
-    action = "allow"
+    rule_action = "allow"
     cidr_block = "0.0.0.0/0"
     from_port = 0
     to_port = 0
@@ -150,10 +150,10 @@ resource "aws_network_acl_rule" "public_egress_alL" {
     egress = true
 }
 
-resource "aws_network_acl_rule" "public_ingress_alL" {
+resource "aws_network_acl_rule" "public_ingress_all" {
     network_acl_id = aws_network_acl.public.id
     rule_number = 100
-    action = "allow"
+    rule_action = "allow"
     cidr_block = "0.0.0.0/0"
     from_port = 0
     to_port = 0
@@ -168,10 +168,10 @@ resource "aws_network_acl" "private" {
     tags = local.tags
 }
 
-resource "aws_network_acl_rule" "private_egress_alL" {
+resource "aws_network_acl_rule" "private_egress_all" {
     network_acl_id = aws_network_acl.private.id
     rule_number = 100
-    action = "allow"
+    rule_action = "allow"
     cidr_block = "0.0.0.0/0"
     from_port = 0
     to_port = 0
@@ -179,10 +179,10 @@ resource "aws_network_acl_rule" "private_egress_alL" {
     egress = true
 }
 
-resource "aws_network_acl_rule" "private_ingress_alL" {
+resource "aws_network_acl_rule" "private_ingress_all" {
     network_acl_id = aws_network_acl.private.id
     rule_number = 100
-    action = "allow"
+    rule_action = "allow"
     cidr_block = "0.0.0.0/0"
     from_port = 0
     to_port = 0
