@@ -1,5 +1,12 @@
 variable "tags" {
-  type = map(string)
+  type = object({
+    component = string
+    environment = string
+    name = string
+    owner = string
+    project = string
+    version = string
+  })
 
   default = {
     component = "infrastructure"
