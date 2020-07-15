@@ -16,17 +16,14 @@ variable "default_tags" {
   type = object({
     component = string
     name = string
+    version = string
   })
 
   default = {
     component = "infrastructure"
     name = "vpc"
+    version = "0.0.1"
   }
-}
-
-variable "version" {
-  type = string
-  default = "0.0.1"
 }
 
 variable "vpc_cidr_block" {

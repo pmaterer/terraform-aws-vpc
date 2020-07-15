@@ -1,8 +1,7 @@
 locals {
     tags = merge(
         var.tags,
-        var.default_tags,
-        {"version" = var.version}
+        var.default_tags
     )
 }
 
