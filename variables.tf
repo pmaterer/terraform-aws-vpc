@@ -1,29 +1,11 @@
-variable "tags" {
-  type = object({
-    environment = string
-    owner = string
-    project = string
-  })
+variable "name" {
+  type = "string"
 
-  default = {
-    environment = "dev"
-    owner = "acme/devops"
-    project = "manhattan"
-  }
+  default = "vpc"
 }
 
-variable "default_tags" {
-  type = object({
-    component = string
-    name = string
-    version = string
-  })
-
-  default = {
-    component = "infrastructure"
-    name = "vpc"
-    version = "0.0.1"
-  }
+variable "tags" {
+  type = map(strings)
 }
 
 variable "vpc_cidr_block" {

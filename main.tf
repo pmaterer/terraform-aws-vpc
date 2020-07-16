@@ -1,10 +1,3 @@
-locals {
-    tags = merge(
-        var.tags,
-        var.default_tags
-    )
-}
-
 data "aws_availability_zones" "available" {
     state = "available"
 }
@@ -16,13 +9,13 @@ data "aws_availability_zones" "available" {
 resource "aws_vpc" "main" {
     cidr_block = var.vpc_cidr_block
 
-    tags = local.tags
+    tags = var.tags
 }
 
 resource "aws_internet_gateway" "main" {
     vpc_id = aws_vpc.main.id
 
-    tags = local.tags
+    tags = var.tags
 }
 
 #
@@ -37,13 +30,13 @@ resource "aws_subnet" "public" {
     availability_zone = data.aws_availability_zones.available.names[count.index]
     map_public_ip_on_launch = false
 
-    tags = local.tags
+    tags = var.tags
 }
 
 resource "aws_route_table" "public" {
     vpc_id = aws_vpc.main.id
 
-    tags = local.tags
+    tags = var.tags
 }
 
 resource "aws_route_table_association" "public" {
@@ -72,7 +65,7 @@ resource "aws_subnet" "private" {
     availability_zone = data.aws_availability_zones.available.names[count.index]
     map_public_ip_on_launch = false
 
-    tags = local.tags
+    tags = var.tags
 }
 
 resource "aws_route_table" "private" {
@@ -80,7 +73,7 @@ resource "aws_route_table" "private" {
 
     vpc_id = aws_vpc.main.id
 
-    tags = local.tags
+    tags = var.tags
 }
 
 resource "aws_route_table_association" "private" {
@@ -99,7 +92,7 @@ resource "aws_eip" "nat_gateway" {
 
     vpc = true
 
-    tags = local.tags
+    tags = var.tags
 
     lifecycle {
         create_before_destroy = true
@@ -112,7 +105,7 @@ resource "aws_nat_gateway" "main" {
     allocation_id = aws_eip.nat_gateway[count.index].id
     subnet_id = aws_subnet.private[count.index].id
     
-    tags = local.tags
+    tags = var.tags
 
     lifecycle {
         create_before_destroy = true
@@ -138,7 +131,7 @@ resource "aws_network_acl" "public" {
     vpc_id = aws_vpc.main.id
     subnet_ids = aws_subnet.public.*.id
 
-    tags = local.tags
+    tags = var.tags
 }
 
 resource "aws_network_acl_rule" "public_egress_all" {
@@ -167,7 +160,7 @@ resource "aws_network_acl" "private" {
     vpc_id = aws_vpc.main.id
     subnet_ids = aws_subnet.private.*.id
 
-    tags = local.tags
+    tags = var.tags
 }
 
 resource "aws_network_acl_rule" "private_egress_all" {
